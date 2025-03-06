@@ -144,3 +144,34 @@ void dance_0_reset(tap_dance_state_t *state, void *user_data) {
 tap_dance_action_t tap_dance_actions[] = {
         [DANCE_0] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_0, dance_0_finished, dance_0_reset),
 };
+
+
+
+
+
+// custom QMK settings
+// Tells Auto Shift which keys should be processed
+bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
+    switch(keycode) {
+        case MT(MOD_LGUI, KC_A):
+        case MT(MOD_LALT, KC_S):
+        case MT(MOD_LCTL, KC_D):
+        case MT(MOD_LSFT, KC_F):
+            return true;
+        default:
+            return false;
+    }
+}
+
+// Handles key press events for Auto Shift
+void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
+    if (shifted) {
+        add_weak_mods(MOD_BIT(KC_LSFT));
+    }
+    register_code16((IS_RETRO(keycode)) ? keycode & 0xFF : keycode);
+}
+
+// Handles key release events for Auto Shift
+void autoshift_release_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
+    unregister_code16((IS_RETRO(keycode)) ? keycode & 0xFF : keycode);
+}
