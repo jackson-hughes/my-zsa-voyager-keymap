@@ -8,3 +8,7 @@
 
 #define RGB_MATRIX_STARTUP_SPD 60
 
+
+
+// custom QMK settings
+#define RETRO_SHIFT 500
